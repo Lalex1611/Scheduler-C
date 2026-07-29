@@ -3,8 +3,9 @@
 #include <ctype.h>
 
 //Función que lee desde la posición del puntero hasta el final de la línea.
-void read_line(FILE *file, long pos, int seek)
+void read_line(FILE *file)
 {
+    long pos = ftell(file);
     char ch;
 
     while((ch = fgetc(file)) != '\n')
@@ -12,7 +13,7 @@ void read_line(FILE *file, long pos, int seek)
     
     printf("\n");
 
-    fseek(file, pos, seek);
+    fseek(file, pos, SEEK_SET);
 }
 
 //Función para pasar a la siguiente línea del archivo, independientemente de donde se encuentre el puntero
@@ -39,6 +40,17 @@ void goto_start_line(FILE *file)
     }
 }
 
+//Función para ir a la línea anterior
+void goto_previous_line(FILE *file)
+{   
+    goto_start_line(file);
+    if(ftell(file) <= 0)
+        return;
+    
+    fseek(file, -2, SEEK_CUR);
+    goto_start_line(file);
+}
+
 int main()
 {
 
@@ -56,9 +68,13 @@ int main()
     printf("Size: %ld\n\n", sz);
     sz--;
 
-    fseek(fp, -150, SEEK_END);
+    fseek(fp, -100, SEEK_END);
     goto_start_line(fp);
-    read_line(fp,ftell(fp),SEEK_CUR);
+    read_line(fp);
+
+    goto_previous_line(fp);
+    goto_previous_line(fp);
+    read_line(fp);
     
     fclose(fp);
 
