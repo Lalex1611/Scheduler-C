@@ -13,6 +13,26 @@ void read_line(FILE *file)
     fseek(file, pos, SEEK_SET);
 }
 
+long get_size(FILE *file)
+{
+    long sz, og_pos;
+
+    og_pos = ftell(file);
+    fseek(file, 0L, SEEK_END);
+    sz = ftell(file);
+
+    fseek(file, og_pos, SEEK_SET);
+
+    return sz;
+}
+
+void print_size(long size, Unidad u)
+{
+    char ch[] = "\0KMG"; 
+
+    printf("Tamaño: %.2f%cB\n", (size / pow(1024,u)), ch[u]);
+}
+
 void goto_next_line(FILE *file)
 {
     char ch;
@@ -52,11 +72,11 @@ void goto_n_lines(FILE *file, int n, Direction d)
         case GOTO_NEXT:
             for(int i = 0; i < n; i++)
                 goto_next_line(file);
-                break;
+            break;
         case GOTO_PREVIOUS:
             for(int i = 0; i < n; i++)
                 goto_previous_line(file);
-                break;
+            break;
         default:
             printf("Dirección NO especificada\n");
             break;

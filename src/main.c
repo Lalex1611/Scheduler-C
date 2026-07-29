@@ -4,7 +4,6 @@ int main()
 {
 
     FILE *fp = fopen("./files/8_ISTE_Horarios-2026-2.pdf", "rb");
-    char ch;
 
     if(fp == NULL)
     {
@@ -12,10 +11,7 @@ int main()
         return 1;
     }
 
-    fseek(fp, 0L, SEEK_END);
-    long sz = ftell(fp);
-    printf("Size: %ld\n\n", sz);
-    sz--;
+    print_size(get_size(fp), KB),
 
     fseek(fp, -100, SEEK_END);
     goto_start_line(fp);
