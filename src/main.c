@@ -11,29 +11,30 @@ int main()
         return 1;
     }
 
-    print_size(get_size(fp), KB),
+    print_size(get_size(fp), KB);
+    fseek(fp, -1, SEEK_END);
 
-    fseek(fp, -100, SEEK_END);
-    goto_start(fp, WORD);
-    read(fp, WORD);
-    goto_start(fp, LINE);
-    read(fp, LINE);
+    int seguir = 1;
 
-    goto_n(fp, 2, GOTO_PREVIOUS, LINE);
-    read(fp, LINE);
-    read(fp, WORD);
-    goto_next(fp, WORD);
-    read(fp, WORD);
-    goto_previous(fp, WORD);
-    read(fp, WORD);
+    char *palabra;
 
-    char* palabra = get_word(fp);
-
-    printf("Palabra: %s\n",palabra);
+    //FIXME: Pasar esto a una función especifica de encontrar palabra
+    while(seguir > 0)
+    {
+        goto_previous(fp, LINE);
+        palabra = get_word(fp);
+        if(compare_word(palabra, "trailer"))
+        {
+            printf("yahoo\n");
+            break;
+        }
+        seguir++;
+        if(seguir > 100)
+            break;
+    }
     
-    fclose(fp);
-
     free(palabra);
+    fclose(fp);
 
     return 0;
 }

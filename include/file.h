@@ -29,7 +29,7 @@ typedef enum salto {
 *   @brief Función para leer una instancia
 *   
 *   @param file Archivo a leer
-*  @param s Separador a usar
+*   @param s Separador a usar
 */
 void read(FILE *file, Salto s);
 
@@ -38,7 +38,7 @@ void read(FILE *file, Salto s);
 *
 *   @param file Archivo a leer
 *
-*   @return Palabra
+*   @return Palabra leída
 */
 char* get_word(FILE *file);
 
@@ -57,6 +57,14 @@ long get_size(FILE *file);
 *   @param u Unidad a la cual se convertirá el tamaño
 */
 void print_size(long size, Unidad u);
+
+/*
+*
+*
+*
+*
+*/
+int compare_word(char *w_one, char *w_two);
 
 /* FUNCIONES DE MOVIMIENTO DE UN ARCHIVO */
 

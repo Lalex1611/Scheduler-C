@@ -15,6 +15,7 @@ void read(FILE *file, Salto s)
 
 char* get_word(FILE *file)
 {
+    long og_pos = ftell(file);
     // Ir al inicio de la palabra
     goto_start(file, WORD);
 
@@ -23,7 +24,7 @@ char* get_word(FILE *file)
     int i = 0;
     
     // Obtener la palabra y su tamaño
-    for(;(ch = fgetc(file)) != (char)WORD;i++)
+    for(;(ch = fgetc(file)) != (char)WORD && ch != (char)LINE && ch != EOF;i++)
         palabra[i] = ch;
     
     palabra[i] = '\0';
@@ -32,6 +33,7 @@ char* get_word(FILE *file)
 
     strcpy(return_palabra, palabra);
     
+    fseek(file, og_pos, SEEK_SET);
     return return_palabra;
 }
 
@@ -53,6 +55,21 @@ void print_size(long size, Unidad u)
     char ch[] = "\0KMG"; 
 
     printf("Tamaño: %.2f%cB\n", (size / pow(1024,u)), ch[u]);
+}
+
+int compare_word(char *w_one, char *w_two)
+{
+    int equal = 1;
+    for(int i = 0; w_one[i] != '\0' && w_two[i] != '\0'; i++)
+    {
+        if(w_one[i] != w_two[i])
+        {
+            equal = 0;
+            break;
+        }
+    }
+
+    return equal;
 }
 
 void goto_next(FILE *file, Salto s)
