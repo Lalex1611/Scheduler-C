@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <ctype.h>
 #include <math.h>
 
@@ -22,9 +23,7 @@ typedef enum salto {
     LINE = '\n'
 } Salto;
 
-/*
-*   FUNCIONES DE LECTURA DE UN ARCHIVO
-*/
+/* FUNCIONES DE LECTURA DE UN ARCHIVO */
 
 /*
 *   @brief Función para leer una instancia
@@ -35,8 +34,15 @@ typedef enum salto {
 void read(FILE *file, Salto s);
 
 /*
-*   FUNCIONES ESTÁNDAR
+*   @brief Función para obtener una palabra
+*
+*   @param file Archivo a leer
+*
+*   @return Palabra
 */
+char* get_word(FILE *file);
+
+/* FUNCIONES ESTÁNDAR */
 
 /*
 *   @brief Función que retorna el tamaño de un archivo
@@ -52,9 +58,7 @@ long get_size(FILE *file);
 */
 void print_size(long size, Unidad u);
 
-/*
-*   FUNCIONES DE MOVIMIENTO DE UN ARCHIVO
-*/
+/* FUNCIONES DE MOVIMIENTO DE UN ARCHIVO */
 
 /*
 *   @brief Función para pasar a la siguiente instancia

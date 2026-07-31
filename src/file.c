@@ -13,6 +13,28 @@ void read(FILE *file, Salto s)
     fseek(file, pos, SEEK_SET);
 }
 
+char* get_word(FILE *file)
+{
+    // Ir al inicio de la palabra
+    goto_start(file, WORD);
+
+    char palabra[100];
+    char ch;
+    int i = 0;
+    
+    // Obtener la palabra y su tamaño
+    for(;(ch = fgetc(file)) != (char)WORD;i++)
+        palabra[i] = ch;
+    
+    palabra[i] = '\0';
+    
+    char* return_palabra = (char*)calloc(i, sizeof(char));
+
+    strcpy(return_palabra, palabra);
+    
+    return return_palabra;
+}
+
 long get_size(FILE *file)
 {
     long sz, og_pos;

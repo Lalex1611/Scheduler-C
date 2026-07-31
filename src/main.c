@@ -26,8 +26,14 @@ int main()
     read(fp, WORD);
     goto_previous(fp, WORD);
     read(fp, WORD);
+
+    char* palabra = get_word(fp);
+
+    printf("Palabra: %s\n",palabra);
     
     fclose(fp);
+
+    free(palabra);
 
     return 0;
 }
