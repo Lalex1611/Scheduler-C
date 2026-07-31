@@ -1,11 +1,11 @@
 #include "../include/file.h"
 
-void read_line(FILE *file)
+void read(FILE *file, Salto s)
 {
     long pos = ftell(file);
     char ch;
 
-    while((ch = fgetc(file)) != '\n')
+    while((ch = fgetc(file)) != (char)s)
         putchar(ch);
     
     printf("\n");
@@ -33,28 +33,31 @@ void print_size(long size, Unidad u)
     printf("Tamaño: %.2f%cB\n", (size / pow(1024,u)), ch[u]);
 }
 
-void goto_next_line(FILE *file)
+void goto_next(FILE *file, Salto s)
 {
     char ch;
-    while((ch = fgetc(file)) != '\n');
+    while((ch = fgetc(file)) != (char)s);
 }
 
-void goto_previous_line(FILE *file)
-{   
-    goto_start_line(file);
+void goto_previous(FILE *file, Salto s)
+{
+    goto_start(file, s);
     if(ftell(file) <= 0)
         return;
     
     fseek(file, -2, SEEK_CUR);
-    goto_start_line(file);
+    goto_start(file, s);
 }
 
-void goto_start_line(FILE *file)
+void goto_start(FILE *file, Salto s)
 {
     int ch;
 
-    for(long pos = ftell(file);(ch = fgetc(file)) != '\n';)
+    for(long pos = ftell(file);(ch = fgetc(file)) != (char)s;)
     {
+        if(ch == (char)LINE)
+            break;
+
         pos -= 1;
         if(pos < 0)
         {
@@ -65,17 +68,17 @@ void goto_start_line(FILE *file)
     }
 }
 
-void goto_n_lines(FILE *file, int n, Direction d)
+void goto_n(FILE *file, int n, Direction d, Salto s)
 {
     switch(d)
     {
         case GOTO_NEXT:
             for(int i = 0; i < n; i++)
-                goto_next_line(file);
+                goto_next(file, s);
             break;
         case GOTO_PREVIOUS:
             for(int i = 0; i < n; i++)
-                goto_previous_line(file);
+                goto_previous(file, s);
             break;
         default:
             printf("Dirección NO especificada\n");

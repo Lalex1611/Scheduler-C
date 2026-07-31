@@ -17,27 +17,70 @@ typedef enum unidad {
     GB
 } Unidad;
 
+typedef enum salto {
+    WORD = ' ',
+    LINE = '\n'
+} Salto;
+
 /*
 *   FUNCIONES DE LECTURA DE UN ARCHIVO
 */
 
-// Función que lee desde la posición del puntero hasta el final de la línea.
-void read_line(FILE *file);
-// Función que retorna el tamaño (en bytes) de un archivo
+/*
+*   @brief Función para leer una instancia
+*   
+*   @param file Archivo a leer
+*  @param s Separador a usar
+*/
+void read(FILE *file, Salto s);
+
+/*
+*   FUNCIONES ESTÁNDAR
+*/
+
+/*
+*   @brief Función que retorna el tamaño de un archivo
+*   
+*   @param file Archivo a leer
+*/
 long get_size(FILE *file);
-// Función para imprimir el tamaño en el formato especificado
+/*
+*   @brief Función para imprimir el tamaño en el formato especificado - Es más como una conversión
+*   
+*   @param size Tamaño del archivo
+*   @param u Unidad a la cual se convertirá el tamaño
+*/
 void print_size(long size, Unidad u);
 
 /*
 *   FUNCIONES DE MOVIMIENTO DE UN ARCHIVO
 */
 
-// Función para pasar a la siguiente línea del archivo, independientemente de donde se encuentre el puntero
-void goto_next_line(FILE *file);
-// Función para ir a la línea anterior
-void goto_previous_line(FILE *file);
-// Función para ir al inicio de la línea.
-void goto_start_line(FILE *file);
-
-// Función para ir n líneas adelante o atras
-void goto_n_lines(FILE *file, int n, Direction d);
+/*
+*   @brief Función para pasar a la siguiente instancia
+*   
+*   @param file Archivo a leer
+*   @param s Separador a usar
+*/
+void goto_next(FILE *file, Salto s);
+/*
+*   @brief Función para ir a la instancia anterior
+*   
+*   @param file Archivo a leer
+*   @param s Separador a usar
+*/
+void goto_previous(FILE *file, Salto s);
+/*
+*   @brief Función para ir al inicio de la instancia
+*   
+*   @param file Archivo a leer
+*   @param s Separador a usar
+*/
+void goto_start(FILE *file, Salto s);
+/*
+*   @brief Función para ir n líneas adelante o atras
+*   
+*   @param file Archivo a leer
+*   @param s Separador a usar
+*/
+void goto_n(FILE *file, int n, Direction d, Salto s);

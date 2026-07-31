@@ -14,11 +14,18 @@ int main()
     print_size(get_size(fp), KB),
 
     fseek(fp, -100, SEEK_END);
-    goto_start_line(fp);
-    read_line(fp);
+    goto_start(fp, WORD);
+    read(fp, WORD);
+    goto_start(fp, LINE);
+    read(fp, LINE);
 
-    goto_n_lines(fp, 2, GOTO_PREVIOUS);
-    read_line(fp);
+    goto_n(fp, 2, GOTO_PREVIOUS, LINE);
+    read(fp, LINE);
+    read(fp, WORD);
+    goto_next(fp, WORD);
+    read(fp, WORD);
+    goto_previous(fp, WORD);
+    read(fp, WORD);
     
     fclose(fp);
 
