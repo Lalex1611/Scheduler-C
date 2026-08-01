@@ -1,16 +1,16 @@
 #include "../include/pdf_parser.h"
 
-int find_trailerX(FILE *file, int limit)
+int find_trailerX(FindTrailerOpts opts)
 {
-    fseek(file, -1, SEEK_END);
+    fseek(opts.file, -1, SEEK_END);
 
     int seguir = 1; 
     char *palabra;
 
     while(seguir > 0)
     {
-        goto_previous(file, LINE);
-        palabra = get_word(file);
+        goto_previous(opts.file, LINE);
+        palabra = get_word(opts.file);
         if(compare_word(palabra, "trailer"))
         {
             free(palabra);
@@ -18,7 +18,7 @@ int find_trailerX(FILE *file, int limit)
         }
 
         seguir++;
-        if(seguir > limit)
+        if(seguir > opts.limit)
         {
             free(palabra);
             return 1;

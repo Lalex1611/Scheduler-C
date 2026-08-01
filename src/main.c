@@ -13,7 +13,7 @@ int main()
     }
 
     print_size(get_size(fp), KB);
-    if(!find_trailer(fp))
+    if(!find_trailer(.file = fp))
         printf("Yeeepii\n");
 
     fclose(fp);

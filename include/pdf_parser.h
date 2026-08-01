@@ -1,7 +1,21 @@
 #include "file.h"
-#include "vrg.h"
 
-#define find_trailer(...) find_trailerX(__VA_ARGS__, 100)
+typedef enum
+{
+    PDF_TRAILER,
+    PDF_STARTXREF,
+    PDF_XREF
+} PdfPart;
 
-/* FUNCIONES PARA ENCONTRAR PARTES DEL PDF */
-int find_trailerX(FILE *file, int limit);
+typedef struct
+{
+    FILE *file;
+    int limit;
+    PdfPart type;
+} FindTrailerOpts;
+
+int find_trailerX(FindTrailerOpts opts);
+
+#define find_trailer(...) \
+    find_trailerX((FindTrailerOpts){.limit = 100, .type = PDF_TRAILER, __VA_ARGS__})
+
