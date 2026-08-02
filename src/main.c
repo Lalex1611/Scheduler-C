@@ -5,6 +5,7 @@ int main()
 {
 
     FILE *fp = fopen("./files/8_ISTE_Horarios-2026-2.pdf", "rb");
+    //FILE *fp = fopen("files/Avance de actividades en el SS profesional - 4.pdf", "rb");
 
     if(fp == NULL)
     {
@@ -13,8 +14,9 @@ int main()
     }
 
     print_size(get_size(fp), KB);
-    if(!find_trailer(.file = fp))
-        printf("Yeeepii\n");
+
+    int xref = get_root(fp);
+    printf("Numero de objeto de Root: %d\n", xref);
 
     fclose(fp);
 

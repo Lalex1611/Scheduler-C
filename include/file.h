@@ -11,6 +11,11 @@ typedef enum direction {
     GOTO_PREVIOUS
 } Direction;
 
+typedef enum {
+    SET_START,
+    NOT_START
+} Position;
+
 typedef enum unidad {
     B,
     KB,
@@ -20,7 +25,8 @@ typedef enum unidad {
 
 typedef enum salto {
     WORD = ' ',
-    LINE = '\n'
+    LINE = '\n',
+    NAME = '/'
 } Salto;
 
 /* FUNCIONES DE LECTURA DE UN ARCHIVO */
@@ -37,10 +43,11 @@ void read(FILE *file, Salto s);
 *   @brief Función para obtener una palabra
 *
 *   @param file Archivo a leer
+*   @param pos Posicion desde donde emepezar
 *
 *   @return Palabra leída
 */
-char* get_word(FILE *file);
+char* get_word(FILE *file, Position pos);
 
 /* FUNCIONES ESTÁNDAR */
 

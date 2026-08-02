@@ -13,11 +13,11 @@ void read(FILE *file, Salto s)
     fseek(file, pos, SEEK_SET);
 }
 
-char* get_word(FILE *file)
+char* get_word(FILE *file, Position pos)
 {
     long og_pos = ftell(file);
     // Ir al inicio de la palabra
-    goto_start(file, WORD);
+    if(pos == SET_START) goto_start(file, WORD);
 
     char palabra[100];
     char ch;

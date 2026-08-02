@@ -12,10 +12,35 @@ typedef struct
     FILE *file;
     int limit;
     PdfPart type;
-} FindTrailerOpts;
+} FindTargetOpts;
 
-int find_trailerX(FindTrailerOpts opts);
+/*
+*   Función que nos deja en una posición deseada
+*
+*   @param FindTargetOpts Struct que incluye referencia al archivo (obligatorio), un limite y el tipo de target a buscar
+*
+*   @return 
+*   0 -> Si la busqueda fue exitosa
+*/
+int find_targetX(FindTargetOpts opts);
 
-#define find_trailer(...) \
-    find_trailerX((FindTrailerOpts){.limit = 100, .type = PDF_TRAILER, __VA_ARGS__})
+#define find_target(...) \
+    find_targetX((FindTargetOpts){.limit = 100, .type = PDF_TRAILER, __VA_ARGS__})
 
+/*
+*   Función que obtiene el offset de la tabla xref
+*
+*   @param file Archivo a leer
+*
+*   @return bytes del offset
+*/
+long int get_xref(FILE* file);
+
+/*
+*   Función que obtiene el número de objeto del root
+*
+*   @param file Archivo a leer
+*
+*   @return Número de objeto del root
+*/
+int get_root(FILE* file);
