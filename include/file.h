@@ -77,6 +77,15 @@ void print_size(long size, Unidad u);
 **/
 char get_salto(Salto s);
 
+/*
+*   @brief Función que confirma si el carácter es uno de los diferentes tipos de salto
+*
+*   @param s Carácter a comparar
+*
+*   @return 
+*   1 -> El char es un salto
+*   0 -> El char no es un salto
+*/
 int in_saltos(char s);
 
 /*

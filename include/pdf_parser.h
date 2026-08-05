@@ -44,3 +44,13 @@ long int get_xref(FILE* file);
 *   @return Número de objeto del root
 */
 int get_root(FILE* file);
+
+/*
+*   @brief Función que retorna el offset de un objeto
+*
+*   @param file Archivo a explorar
+*   @param obj Número de objeto a buscar
+*
+*   @return Offset del objeto
+*/
+long get_obj_offset(FILE *file, int obj);

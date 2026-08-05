@@ -63,7 +63,7 @@ int get_root(FILE* file)
     /* Por default ya se busca el PDF_TRAILER */
     if(find_target(.file = file))
         return 1;
-        
+
     /* Se pasa a la siguiente línea ya que ahí empieza la información */
     goto_next(file, LINE);
     /* Ir al siguiente NAME para empezar a comparar */
@@ -86,4 +86,19 @@ int get_root(FILE* file)
     free(name);
 
     return object_num;
+}
+
+long get_obj_offset(FILE *file, int obj)
+{
+    long int xref_table = get_xref(file);
+    fseek(file, xref_table, SEEK_SET);
+
+    goto_next(file, LINE);
+    goto_n(file, obj + 1, GOTO_NEXT, LINE);
+
+    char *offset_s = get_word(file, SET_START);
+    long int offset_l = strtol(offset_s, NULL, 10);
+    
+    free(offset_s);
+    return offset_l;
 }
