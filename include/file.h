@@ -24,10 +24,13 @@ typedef enum unidad {
 } Unidad;
 
 typedef enum salto {
-    WORD = ' ',
-    LINE = '\n',
-    NAME = '/'
+    WORD,
+    LINE,
+    NAME,
+    _COUNT
 } Salto;
+
+const char Saltos[_COUNT];
 
 /* FUNCIONES DE LECTURA DE UN ARCHIVO */
 
@@ -66,10 +69,23 @@ long get_size(FILE *file);
 void print_size(long size, Unidad u);
 
 /*
+*   @brief Función que retorna el char equivalente al salto del enum 
 *
+*   @param s Salto seleccionado
 *
+*   @return Caracter equivalente
+**/
+char get_salto(Salto s);
+
+int in_saltos(char s);
+
+/*
+*   @brief Función para comparar dos palabras
 *
+*   @param w_one Primer palabra a comparar
+*   @param w_two Sgunda palabra a comparar
 *
+*   @return 1 si la palabra es igual - 0 si es diferente
 */
 int compare_word(char *w_one, char *w_two);
 

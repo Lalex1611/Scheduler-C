@@ -18,6 +18,11 @@ int main()
     int xref = get_root(fp);
     printf("Numero de objeto de Root: %d\n", xref);
 
+    char sss = get_salto(NAME);
+    printf("Salto: %cPalabraprueba\n", sss);
+
+    fseek(fp, 103419, SEEK_SET);
+    read(fp, LINE);
     fclose(fp);
 
     return 0;

@@ -60,13 +60,18 @@ long int get_xref(FILE* file)
 
 int get_root(FILE* file)
 {
+    /* Por default ya se busca el PDF_TRAILER */
     if(find_target(.file = file))
         return 1;
-    
+        
+    /* Se pasa a la siguiente línea ya que ahí empieza la información */
     goto_next(file, LINE);
     /* Ir al siguiente NAME para empezar a comparar */
     goto_next(file, NAME);
 
+    /* Se especifica que empiece desde donde esta y no del inicio de lo que considera palabra */
+    /* Sin NOT_START -> Palabra retornada: "[contenido_basura]/Root" */
+    /* Con NOT_START -> Palabra retornada: "Root" */
     char *name = get_word(file, NOT_START);
     
     while(!compare_word(name, "Root"))

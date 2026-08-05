@@ -1,11 +1,19 @@
 #include "../include/file.h"
 
+ const char Saltos[]=
+{
+    ' ',
+    '\n',
+    '/'
+};
+
 void read(FILE *file, Salto s)
 {
     long pos = ftell(file);
     char ch;
+    char salto = get_salto(s);
 
-    while((ch = fgetc(file)) != (char)s)
+    while((ch = fgetc(file)) != salto)
         putchar(ch);
     
     printf("\n");
@@ -24,8 +32,13 @@ char* get_word(FILE *file, Position pos)
     int i = 0;
     
     // Obtener la palabra y su tamaño
-    for(;(ch = fgetc(file)) != (char)WORD && ch != (char)LINE && ch != EOF;i++)
+    ch = fgetc(file);
+    while(!in_saltos(ch) && ch != EOF)
+    {
         palabra[i] = ch;
+        i++;
+        ch = fgetc(file);
+    }
     
     palabra[i] = '\0';
     
@@ -57,6 +70,21 @@ void print_size(long size, Unidad u)
     printf("Tamaño: %.2f%cB\n", (size / pow(1024,u)), ch[u]);
 }
 
+char get_salto(Salto s)
+{
+    return Saltos[s];
+}
+
+int in_saltos(char s)
+{
+    for(int i = 0; i < _COUNT; i++)
+    {
+        if(s == Saltos[i]) return 1;
+    }
+
+    return 0;
+}
+
 int compare_word(char *w_one, char *w_two)
 {
     int equal = 1;
@@ -74,8 +102,8 @@ int compare_word(char *w_one, char *w_two)
 
 void goto_next(FILE *file, Salto s)
 {
-    char ch;
-    while((ch = fgetc(file)) != (char)s);
+    char ch, salto = get_salto(s);
+    while((ch = fgetc(file)) != salto);
 }
 
 void goto_previous(FILE *file, Salto s)
@@ -91,10 +119,11 @@ void goto_previous(FILE *file, Salto s)
 void goto_start(FILE *file, Salto s)
 {
     int ch;
+    char salto = get_salto(s);
 
-    for(long pos = ftell(file);(ch = fgetc(file)) != (char)s;)
+    for(long pos = ftell(file);(ch = fgetc(file)) != salto;)
     {
-        if(ch == (char)LINE)
+        if(ch == Saltos[LINE])
             break;
 
         pos -= 1;
