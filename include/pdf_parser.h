@@ -7,6 +7,17 @@ typedef enum
     PDF_XREF
 } PdfPart;
 
+typedef enum
+{
+    ROOT,
+    INFO,
+    PAGES,
+    PAGE,
+    _OBJ_COUNT
+} PdfObject;
+
+const char *Objetos[_OBJ_COUNT];
+
 typedef struct
 {
     FILE *file;
@@ -35,6 +46,14 @@ int find_targetX(FindTargetOpts opts);
 *   @return bytes del offset
 */
 long int get_xref(FILE* file);
+
+/*
+*   @brief Función que busca en un objeto la referencia a otro
+*
+*   @param file Archivo a explorar
+*   @param obj Tipo de objeto a buscar
+*/
+void goto_obj(FILE* file, PdfObject obj);
 
 /*
 *   Función que obtiene el número de objeto del root

@@ -18,10 +18,12 @@ int main()
     int xref = get_root(fp);
     printf("Numero de objeto de Root: %d\n", xref);
 
-    long int table = get_obj_offset(fp, xref);
+    long int root_obj = get_obj_offset(fp, xref);
 
-    fseek(fp, table, SEEK_SET);
+    fseek(fp, root_obj, SEEK_SET);
     read(fp, LINE);
+    goto_next(fp,LINE);
+    
     fclose(fp);
 
     return 0;

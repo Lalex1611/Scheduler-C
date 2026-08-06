@@ -1,5 +1,14 @@
 #include "../include/pdf_parser.h"
 
+const char *Objetos[] = 
+{
+    "Root",
+    "Info",
+    "Pages",
+    "Page"
+};
+
+
 int find_targetX(FindTargetOpts opts)
 {
     char target[10];
@@ -58,6 +67,22 @@ long int get_xref(FILE* file)
     return ref_i;
 }
 
+void goto_obj(FILE* file, PdfObject obj)
+{
+    /* Se especifica que empiece desde donde esta y no del inicio de lo que considera palabra */
+    /* Sin NOT_START -> Palabra retornada: "[contenido_basura]/Root" */
+    /* Con NOT_START -> Palabra retornada: "Root" */
+    char *name = get_word(file, NOT_START);
+    
+    while(!compare_word(name, (char*)Objetos[obj]))
+    {
+        goto_next(file, NAME);
+        name = get_word(file, NOT_START);
+    }
+    
+    free(name);
+}
+
 int get_root(FILE* file)
 {
     /* Por default ya se busca el PDF_TRAILER */
@@ -69,19 +94,10 @@ int get_root(FILE* file)
     /* Ir al siguiente NAME para empezar a comparar */
     goto_next(file, NAME);
 
-    /* Se especifica que empiece desde donde esta y no del inicio de lo que considera palabra */
-    /* Sin NOT_START -> Palabra retornada: "[contenido_basura]/Root" */
-    /* Con NOT_START -> Palabra retornada: "Root" */
-    char *name = get_word(file, NOT_START);
-    
-    while(!compare_word(name, "Root"))
-    {
-        goto_next(file, NAME);
-        name = get_word(file, NOT_START);
-    }
+    goto_obj(file, ROOT);
 
     goto_next(file, WORD);
-    name = get_word(file, SET_START);
+    char *name = get_word(file, SET_START);
     int object_num = strtol(name, NULL, 10);
     free(name);
 
