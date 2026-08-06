@@ -6,6 +6,8 @@
 #include <ctype.h>
 #include <math.h>
 
+#define ERROR -1
+
 typedef enum direction {
     GOTO_NEXT,
     GOTO_PREVIOUS

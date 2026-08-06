@@ -13,6 +13,7 @@ typedef enum
     INFO,
     PAGES,
     PAGE,
+    COUNT,
     _OBJ_COUNT
 } PdfObject;
 
@@ -73,3 +74,5 @@ int get_root(FILE* file);
 *   @return Offset del objeto
 */
 long get_obj_offset(FILE *file, int obj);
+
+int get_pages_count(FILE *file);

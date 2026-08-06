@@ -5,7 +5,8 @@ const char *Objetos[] =
     "Root",
     "Info",
     "Pages",
-    "Page"
+    "Page",
+    "Count"
 };
 
 
@@ -44,12 +45,12 @@ int find_targetX(FindTargetOpts opts)
         if(seguir > opts.limit)
         {
             free(palabra);
-            return 1;
+            return ERROR;
         }
     }
     
     free(palabra);
-    return 1;
+    return ERROR;
 }
 
 //TODO: Agregar un macro de error para no retornar un simple 1 en caso de error
@@ -117,4 +118,30 @@ long get_obj_offset(FILE *file, int obj)
     
     free(offset_s);
     return offset_l;
+}
+
+int get_pages_count(FILE *file)
+{
+    int root_ref = get_root(file);
+    long int root_offset = get_obj_offset(file, root_ref);
+    fseek(file, root_offset, SEEK_SET);
+
+    goto_obj(file, PAGES);
+
+    goto_next(file, WORD);
+
+    char *pages_ref = get_word(file, SET_START);
+    int pages_obj = strtol(pages_ref, NULL, 10);
+    free(pages_ref);
+
+    long int pages_offset = get_obj_offset(file, pages_obj);
+    fseek(file, pages_offset, SEEK_SET);
+    goto_next(file, LINE);
+
+    goto_obj(file, COUNT);
+    goto_next(file, WORD);
+    char *pages_count = get_word(file, SET_START);
+    printf("Número de páginas: %s\n", pages_count);
+
+    return 0;
 }

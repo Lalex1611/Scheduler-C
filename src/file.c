@@ -87,17 +87,15 @@ int in_saltos(char s)
 
 int compare_word(char *w_one, char *w_two)
 {
-    int equal = 1;
+    if(strlen(w_one) != strlen(w_two)) return 0;
+
     for(int i = 0; w_one[i] != '\0' && w_two[i] != '\0'; i++)
     {
         if(w_one[i] != w_two[i])
-        {
-            equal = 0;
-            break;
-        }
+            return 0;
     }
 
-    return equal;
+    return 1;
 }
 
 void goto_next(FILE *file, Salto s)
