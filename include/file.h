@@ -15,7 +15,9 @@ typedef enum direction {
 
 typedef enum {
     SET_START,
-    NOT_START
+    NOT_START,
+    SET_END,
+    NOT_END
 } Position;
 
 typedef enum unidad {
@@ -32,7 +34,7 @@ typedef enum salto {
     _COUNT
 } Salto;
 
-const char Saltos[_COUNT];
+extern const char Saltos[_COUNT];
 
 /* FUNCIONES DE LECTURA DE UN ARCHIVO */
 

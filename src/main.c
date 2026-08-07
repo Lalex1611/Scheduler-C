@@ -6,6 +6,7 @@ int main()
 
     //FILE *fp = fopen("./files/8_ISTE_Horarios-2026-2.pdf", "rb");
     FILE *fp = fopen("./files/6_IE_Horarios-2026-2.pdf", "rb");
+    //FILE *fp = fopen("./files/album maya.pdf", "rb");
     //FILE *fp = fopen("files/Avance de actividades en el SS profesional - 4.pdf", "rb");
 
     if(fp == NULL)

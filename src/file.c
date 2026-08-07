@@ -33,7 +33,7 @@ char* get_word(FILE *file, Position pos)
     
     // Obtener la palabra y su tamaño
     ch = fgetc(file);
-    while(!in_saltos(ch) && ch != EOF)
+    while(!in_saltos(ch) && ch != EOF && i < 99)
     {
         palabra[i] = ch;
         i++;
@@ -42,7 +42,7 @@ char* get_word(FILE *file, Position pos)
     
     palabra[i] = '\0';
     
-    char* return_palabra = (char*)calloc(i, sizeof(char));
+    char* return_palabra = (char*)calloc(i + 1, sizeof(char));
 
     strcpy(return_palabra, palabra);
     

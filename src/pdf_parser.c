@@ -26,7 +26,7 @@ int find_targetX(FindTargetOpts opts)
             break;
     }
 
-    fseek(opts.file, -1, SEEK_END);
+    if(opts.pos == SET_END) fseek(opts.file, -1, SEEK_END);
 
     int seguir = 1; 
     char *palabra;
@@ -53,18 +53,28 @@ int find_targetX(FindTargetOpts opts)
     return ERROR;
 }
 
-//TODO: Agregar un macro de error para no retornar un simple 1 en caso de error
-
-long int get_xref(FILE* file)
+long int get_xref(FILE* file, Position pos)
 {
-    if(find_target(.file = file, .type = PDF_STARTXREF))
-        return 1;
+    if(find_target(.file = file, .type = PDF_STARTXREF, .pos = pos))
+        return ERROR;
     
     goto_next(file, LINE);
-    char *ref_s = get_word(file, SET_START);
-    long int ref_i = strtol(ref_s, NULL, 10);
+    long int ref_i;
+    fscanf(file, "%ld", &ref_i);
 
-    free(ref_s);
+    //Revisar si el xref es el que contiene los objetos
+    long int og_pos = ftell(file);
+    fseek(file, ref_i, SEEK_SET);
+    goto_next(file, LINE);
+
+    int n1, n2;
+    fscanf(file, "%d %d", &n1, &n2);
+    if(n1 == 0 && n2 == 0)
+    {
+        goto_n(file, 3, GOTO_PREVIOUS, LINE);
+        get_xref(file, NOT_END);
+    }
+    fseek(file, og_pos, SEEK_SET);
     return ref_i;
 }
 
@@ -107,7 +117,7 @@ int get_root(FILE* file)
 
 long get_obj_offset(FILE *file, int obj)
 {
-    long int xref_table = get_xref(file);
+    long int xref_table = get_xref(file, SET_END);
     fseek(file, xref_table, SEEK_SET);
 
     goto_next(file, LINE);
@@ -123,6 +133,11 @@ long get_obj_offset(FILE *file, int obj)
 int get_pages_count(FILE *file)
 {
     int root_ref = get_root(file);
+    if(root_ref == ERROR)
+    {
+        printf("Error buscando el root\n");
+        return ERROR;
+    }
     long int root_offset = get_obj_offset(file, root_ref);
     fseek(file, root_offset, SEEK_SET);
 
@@ -145,3 +160,5 @@ int get_pages_count(FILE *file)
 
     return 0;
 }
+
+//TODO: Cambiar el buscar xref para que busque la tabla con todos los objetos

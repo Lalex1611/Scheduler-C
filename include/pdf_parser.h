@@ -17,13 +17,14 @@ typedef enum
     _OBJ_COUNT
 } PdfObject;
 
-const char *Objetos[_OBJ_COUNT];
+extern const char *Objetos[_OBJ_COUNT];
 
 typedef struct
 {
     FILE *file;
     int limit;
     PdfPart type;
+    Position pos;
 } FindTargetOpts;
 
 /*
@@ -37,7 +38,7 @@ typedef struct
 int find_targetX(FindTargetOpts opts);
 
 #define find_target(...) \
-    find_targetX((FindTargetOpts){.limit = 100, .type = PDF_TRAILER, __VA_ARGS__})
+    find_targetX((FindTargetOpts){.limit = 100, .type = PDF_TRAILER, .pos = SET_END, __VA_ARGS__})
 
 /*
 *   Función que obtiene el offset de la tabla xref
@@ -46,7 +47,7 @@ int find_targetX(FindTargetOpts opts);
 *
 *   @return bytes del offset
 */
-long int get_xref(FILE* file);
+long int get_xref(FILE* file, Position pos);
 
 /*
 *   @brief Función que busca en un objeto la referencia a otro
